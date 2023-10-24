@@ -19,3 +19,31 @@
 :where(.css-dev-only-do-not-override-1tyx27x).ant-btn-primary{
   background-color: #9e339f !important;
 }
+
+.ip_ft{
+  height: 52px;
+  width: 100%;
+  border: 1px solid #e1e1e1;
+  border-radius: 50px;
+  padding-left: 30px;
+  font-size: 14px;
+  color: #666666;
+}
+
+.bt_ft{
+  right: 4px;
+  top: 4px;
+  font-size: 14px;
+  color: #ffffff;
+  background: #ca1515;
+  font-weight: 600;
+  border: none;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 50px;
+}
+
+.slick-arrow, .slick-next{
+  display: none !important;
+}

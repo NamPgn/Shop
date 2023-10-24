@@ -1,0 +1,12 @@
+img{
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+.container{
+  max-width: 1140px;
+  margin: 0 auto;
+}
+.options ul li:hover{
+  cursor: pointer;
+}
