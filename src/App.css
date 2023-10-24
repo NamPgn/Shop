@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#root {
+  height: 100%;
+}
+
+.main {
+  display: flex;
+  min-height: 100vh;
+}
+
+.ant-layout-content {
+  background: transparent !important ;
+  padding: 0 !important;
+}
+
+:where(.css-dev-only-do-not-override-1tyx27x).ant-btn-primary{
+  background-color: #9e339f !important;
+}
