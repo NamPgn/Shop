@@ -27,7 +27,7 @@ export default function ImageLayout() {
 
 	return (
 		<div className='flex'>
-			<div className='w-6/12'>
+			<div className='w-6/12 p-2'>
 				<img className="w-full, h-full" src={itemData[0].img} />
 			</div>
 			<div className='w-6/12'>
@@ -36,7 +36,7 @@ export default function ImageLayout() {
 					gridTemplateColumns: "repeat(2, 1fr)"
 				}}>
 					{itemData.slice(1, 5).map((item, index) => {
-						return <img className="w-full, h-full" src={item.img} />
+						return <img className="w-full h-full p-2" src={item.img} />
 					})}
 				</div>
 			</div>

@@ -12,8 +12,9 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { HeartOutlined, SaveOutlined, SearchOutlined } from '@ant-design/icons';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Products', 'Women’s', 'Men’s', "Shop", "Pages", "Blog", "Contact"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
@@ -127,7 +128,7 @@ function Header() {
 							</Button>
 						))}
 					</Box>
-
+					<div className='text-[#999] text-[14px] mr-5'>Login/Register</div>
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -157,6 +158,15 @@ function Header() {
 							))}
 						</Menu>
 					</Box>
+					<div className='ml-5'>
+						<SearchOutlined />
+					</div>
+					<div className='ml-5'>
+						<HeartOutlined />
+					</div>
+					<div className='ml-5'>
+						<SaveOutlined />
+					</div>
 				</Toolbar>
 			</Container>
 		</AppBar>
