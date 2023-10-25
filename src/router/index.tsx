@@ -1,7 +1,9 @@
 import { lazy } from "react";
 import Client from "../layout/client";
 import Home from "../page/Home";
-import ProductDetail from "../page/detail";
+import ProductDetail from "../page/Detail";
+import Cart from "../page/Cart";
+import Page404 from "../components/404";
 
 const ProductAdmin = lazy(() => import("../admin/products/"));
 const LayoutAdmin = lazy(() => import("../layout/admin"));
@@ -19,6 +21,10 @@ export const router = [
         path: "/d/:id",
         element: <ProductDetail />,
       },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
     ],
   },
   {
@@ -31,4 +37,8 @@ export const router = [
       },
     ],
   },
+  {
+    path:"*",
+    element:<Page404/>
+  }
 ];

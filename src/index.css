@@ -104,7 +104,7 @@ img {
 }
 
 
-.product__details__button ul li{
+.product__details__button ul li {
   display: inline-block;
   height: 50px;
   width: 50px;
@@ -113,4 +113,23 @@ img {
   line-height: 50px;
   text-align: center;
   padding-top: 1px;
+}
+
+.shop__cart__table tbody tr .cart__product__item {
+  overflow: hidden;
+  width: 585px;
+}
+
+.shop__cart__table tbody tr .cart__price {
+  font-size: 16px;
+  color: #ca1515;
+  font-weight: 600;
+  width: 190px;
+}
+
+.shop__cart__table tbody tr .cart__total {
+  font-size: 16px;
+  color: #ca1515;
+  font-weight: 600;
+  width: 150px;
 }

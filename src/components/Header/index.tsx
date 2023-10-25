@@ -12,7 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { HeartOutlined, SaveOutlined, SearchOutlined } from '@ant-design/icons';
+import { HeartOutlined, SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import MVLink from '../Location/Link';
 
 const pages = ['Products', 'Women’s', 'Men’s', "Shop", "Pages", "Blog", "Contact"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -164,9 +165,9 @@ function Header() {
 					<div className='ml-5'>
 						<HeartOutlined />
 					</div>
-					<div className='ml-5'>
-						<SaveOutlined />
-					</div>
+					<MVLink to={"/cart"} className='ml-5'>
+						<ShoppingCartOutlined />
+					</MVLink >
 				</Toolbar>
 			</Container>
 		</AppBar>

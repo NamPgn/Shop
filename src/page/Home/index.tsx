@@ -1,5 +1,4 @@
 import Feature from "../../components/Feature"
-import Footer from "../../components/Footer"
 import ImageFooter from "../../components/ImageFooter"
 import ListImage from "../../components/ListImage"
 import ListProduct from "../../components/ListProduct"
@@ -15,7 +14,6 @@ const Home = () => {
       <Feature/>
       <SellTime/>
       <ImageFooter/>
-      <Footer/>
     </>
   )
 }
