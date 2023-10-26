@@ -13,7 +13,7 @@ const ImageFooter = () => {
     <div className='mt-[20px] flex w-2/12'>
       {
         Image.map((item, _) => {
-          return <img src={item} />
+          return <img key={_} src={item} />
         })
       }
     </div>
