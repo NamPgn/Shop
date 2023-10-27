@@ -36,7 +36,7 @@ export default function ImageLayout() {
 					gridTemplateColumns: "repeat(2, 1fr)"
 				}}>
 					{itemData.slice(1, 5).map((item, index) => {
-						return <img className="w-full h-full p-2" src={item.img} />
+						return <img key={index} className="w-full h-full p-2" src={item.img} />
 					})}
 				</div>
 			</div>

@@ -4,10 +4,12 @@ import Home from "../page/Home";
 import ProductDetail from "../page/Detail";
 import Cart from "../page/Cart";
 import Page404 from "../components/404";
+import Lazy from "../components/Lazy";
+import CircularIndeterminate from "../admin/ui/Notification/Loading";
 
 const ProductAdmin = lazy(() => import("../admin/products/"));
 const LayoutAdmin = lazy(() => import("../layout/admin"));
-
+const ProductPage = lazy(() => import('../page/Products'));
 export const router = [
   {
     path: "/",
@@ -25,6 +27,12 @@ export const router = [
         path: "/cart",
         element: <Cart />,
       },
+      {
+        path: "/products",
+        element: <Lazy loading={<CircularIndeterminate/>}>
+          <ProductPage />
+        </Lazy>
+      }
     ],
   },
   {
@@ -38,7 +46,7 @@ export const router = [
     ],
   },
   {
-    path:"*",
-    element:<Page404/>
+    path: "*",
+    element: <Page404 />
   }
 ];
