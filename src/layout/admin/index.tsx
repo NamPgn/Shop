@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -6,10 +6,8 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Button, theme } from "antd";
+import { Layout, Menu, Button } from "antd";
 import { Outlet } from "react-router-dom";
-import MVTitle from "../../admin/ui/Title";
-import MVAvatar from "../../admin/ui/Avatar";
 import { Footer } from "antd/es/layout/layout";
 const { Header, Sider, Content } = Layout;
 const LayoutAdmin = () => {

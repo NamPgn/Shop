@@ -1,5 +1,5 @@
 import { Upload } from "antd";
-import React, { memo } from "react";
+import { memo } from "react";
 import { Controller } from "react-hook-form";
 import { MyButton } from "../Button";
 import { UploadOutlined } from "@ant-design/icons";

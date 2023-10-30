@@ -11,7 +11,6 @@ import { getAllProduct } from "../../sevices/products";
 import { Modal } from "antd";
 import MVInput from "../ui/Input";
 import { useForm } from "react-hook-form";
-import MVAvatar from "../ui/Avatar";
 interface DataType {
   key: React.Key;
   name: string;
@@ -50,7 +49,6 @@ const columns: ColumnsType<DataType> = [
 
 const Products: React.FC = () => {
   const [modal1Open, setModal1Open] = useState(false);
-  const [modal2Open, setModal2Open] = useState(false);
   const [product, setProduct]: any = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const { register, control } = useForm();

@@ -1,6 +1,5 @@
 import { CarOutlined } from '@ant-design/icons'
 import { Typography } from '@mui/material'
-import React from 'react'
 
 const SellTime = () => {
   return (

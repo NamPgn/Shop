@@ -29,6 +29,7 @@ const ProductOther=()=>{
                       value={value}
                       onChange={(event, newValue) => {
                         setValue(newValue);
+                        console.log(event);
                       }}
                     />
                     <div className="price">

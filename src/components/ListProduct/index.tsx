@@ -1,5 +1,5 @@
 import { Rating, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const ListProduct = () => {
   const [currentCategory, setCurrentCategory] = useState('All');

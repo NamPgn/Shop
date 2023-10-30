@@ -135,13 +135,13 @@ const list = [
 const ProductPage = () => {
   const [age, setAge] = useState("");
   const [value, setValue] = useState<number | null>(2);
-  const [check, setCheck] = useState(false);
+  // const [check, setCheck] = useState(false);
   const handleChange = (e: any) => {
     setAge(e.target.value);
   }
-  const handleChangeCheked = (e: any) => {
-    setCheck(e.target.value)
-  }
+  // const handleChangeCheked = (e: any) => {
+  //   setCheck(e.target.value)
+  // }
   return <>
     <div className="container">
       <Breadcrumb href={"/product"} to={"Product"} />
@@ -231,7 +231,7 @@ const ProductPage = () => {
                   <Rating
                     name="simple-controlled"
                     value={value}
-                    onChange={(event, newValue) => {
+                    onChange={(_event, newValue) => {
                       setValue(newValue);
                     }}
                   />

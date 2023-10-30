@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
 import ImageFooter from "../../components/ImageFooter";
 import { Box, Rating, Tab, Tabs, Typography } from "@mui/material";
 import { HeartOutlined, MenuOutlined } from "@ant-design/icons";
@@ -32,11 +31,10 @@ CustomTabPanel.propTypes = {
 };
 
 const ProductDetail = () => {
-  const { id } = useParams();
   const [value, setValue] = useState<number | null>(2);
   const [valueTab, setValueTab] = React.useState(2);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValueTab(newValue);
   };
 
@@ -54,7 +52,7 @@ const ProductDetail = () => {
               <Rating
                 name="simple-controlled"
                 value={value}
-                onChange={(event, newValue) => {
+                onChange={(_event, newValue) => {
                   setValue(newValue);
                 }}
               />

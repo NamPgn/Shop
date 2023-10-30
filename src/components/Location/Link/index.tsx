@@ -1,7 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-const MVLink = ({ to, children, ...rest }) => {
+const MVLink = ({ to, children, ...rest }:any) => {
   return (
     <Link to={to} {...rest}>
       {children}

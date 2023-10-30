@@ -50,6 +50,7 @@ const Cart = () => {
                       value={value}
                       onChange={(event, newValue) => {
                         setValue(newValue);
+                        console.log(event);
                       }}
                     />
                   </div>
