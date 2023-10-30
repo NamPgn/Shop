@@ -29,6 +29,7 @@ export const MVUpload = memo(({ label, name, control, ...rest }: any) => {
           </Upload>
         )}
       />
+      {...rest}
     </div>
   );
 });
