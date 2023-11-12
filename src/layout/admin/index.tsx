@@ -1,22 +1,26 @@
 import { useState } from "react";
 import {
+  AlignCenterOutlined,
+  AlignLeftOutlined,
+  BgColorsOutlined,
+  FontSizeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
+  OrderedListOutlined,
   UserOutlined,
-  VideoCameraOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button } from "antd";
 import { Outlet } from "react-router-dom";
 import { Footer } from "antd/es/layout/layout";
+import MVLink from "../../components/Location/Link";
 const { Header, Sider, Content } = Layout;
 const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical bg-[#fff]">
-        </div>
+        <div className="demo-logo-vertical bg-[#fff]"></div>
         <Menu
           className="h-full"
           theme="light"
@@ -26,17 +30,34 @@ const LayoutAdmin = () => {
             {
               key: "1",
               icon: <UserOutlined />,
-              label: "Product",
+              label: <MVLink to="/admin">Admin</MVLink>,
             },
             {
               key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "nav 2",
+              icon: <OrderedListOutlined />,
+              label: <MVLink to="/admin/products">Products</MVLink>,
+              children: [
+                {
+                  key: "3",
+                  label: <MVLink to="/admin/products/size">Size</MVLink>,
+                  icon: <FontSizeOutlined />,
+                },
+                {
+                  key: "4",
+                  label: <MVLink to="/admin/products/color">Color</MVLink>,
+                  icon: <BgColorsOutlined />,
+                },
+                {
+                  key: "5",
+                  label: <MVLink to="/admin/options">Options</MVLink>,
+                  icon: <AlignLeftOutlined />,
+                },
+              ],
             },
             {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "nav 3",
+              key: "6",
+              icon: <UsergroupAddOutlined />,
+              label: <MVLink to="/admin/users">User</MVLink>,
             },
           ]}
         />

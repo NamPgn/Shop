@@ -5,12 +5,17 @@ import MVTable from "../ui/Table";
 import { MyButton } from "../ui/Button";
 import MVConfirm from "../ui/Confirm";
 import MVLink from "../../components/Location/Link";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Image, Tag } from "antd";
-import { getAllProduct } from "../../sevices/products";
+import {
+  addProduct,
+  deleteProduct,
+  getAllProduct,
+} from "../../sevices/products";
 import { Modal } from "antd";
 import MVInput from "../ui/Input";
 import { useForm } from "react-hook-form";
+import { MVError, MVSuccess } from "../../components/Message";
 interface DataType {
   key: React.Key;
   name: string;
@@ -26,16 +31,16 @@ const columns: ColumnsType<DataType> = [
     dataIndex: "name",
   },
   {
-    title: "Age",
-    dataIndex: "age",
-  },
-  {
     title: "Image",
     dataIndex: "image",
   },
   {
     title: "Address",
     dataIndex: "address",
+  },
+  {
+    title: "createdBy",
+    dataIndex: "createdBy",
   },
   {
     title: "Tags",
@@ -49,9 +54,16 @@ const columns: ColumnsType<DataType> = [
 
 const Products: React.FC = () => {
   const [modal1Open, setModal1Open] = useState(false);
+  const [init, setInit] = useState(false);
+  const [options, _setOptions] = useState([
+    { optionName: "", optionValueName: [] },
+    { optionName: "", optionValueName: [] },
+  ]);
+
   const [product, setProduct]: any = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const { register, control } = useForm();
+  const [inputValue, setInputValue] = useState("");
+  const { control, handleSubmit, register, reset } = useForm();
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
@@ -67,66 +79,125 @@ const Products: React.FC = () => {
       setProduct(data);
     };
     getData();
-  }, []);
+  }, [init]);
+  const handleAddProduct = async (data: any) => {
+    setModal1Open(false);
+    reset();
+    const response = await addProduct(data);
+    setInit((init) => !init);
+    if (response.data) {
+      MVSuccess("Product added successfully");
+    } else {
+      MVError("Product added error");
+    }
+  };
+  const handleDelete = async (id: number) => {
+    const response = await deleteProduct(id);
+    setInit((init) => !init);
+    if (response.data) {
+      MVSuccess("Product deleted successfully");
+    } else {
+      MVError("Product deleted failed");
+    }
+  };
+
+  const handleOk = () => {
+    // handleAddProduct([]);
+    handleSubmit(handleAddProduct)();
+  };
   const data =
     product.data &&
-    product.data.map((item: any) => {
-      return {
-        key: item.id,
-        name: item.name,
-        image: (
-          <Image
-            width={100}
-            height={100}
-            style={{
-              objectFit: "cover",
-            }}
-            src="https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/394629872_6802798259797704_3690773629479479926_n.png?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=wF2QndgutjYAX8FS23T&_nc_ht=scontent.fhan14-1.fna&_nc_e2o=f&oh=00_AfCgdG8sUXulYcBPRLgxIPJ5laGiKplMtsx0l695hCGliw&oe=653B0DCF"
-          />
-        ),
-        age: 32,
-        address: item.price,
-        tags: <Tag color="success">isActive</Tag>,
-        action: (
-          <>
-            <MVLink to={`/admin/product/edit/`}>
-              <MyButton danger shape="circle">
-                <EditOutlined />
-              </MyButton>
-            </MVLink>
-            <MVConfirm
-              title="Delete the product"
-              // onConfirm={() => confirm(i)}
-              okText="Yes"
-              cancelText="No"
-            >
-              <MyButton shape="circle" className="ml-2">
-                <DeleteOutlined />
-              </MyButton>
-            </MVConfirm>
-          </>
-        ),
-      };
-    });
+    product.data.data
+      .filter((item: any) => item.status !== 0)
+      .map((item: any, index: number) => {
+        return {
+          key: item.id,
+          name: item.name,
+          createdBy: item.createdBy,
+          image: (
+            <Image
+              width={100}
+              height={100}
+              style={{
+                objectFit: "cover",
+              }}
+              src=""
+            />
+          ),
+          address: item.price,
+          tags: <Tag color="success">isActive</Tag>,
+          action: (
+            <>
+              <MVLink to={`/admin/product/edit/${item.id}`}>
+                <MyButton danger shape="circle">
+                  <EditOutlined />
+                </MyButton>
+              </MVLink>
+              <MVConfirm
+                title="Delete the product"
+                onConfirm={() => handleDelete(item.id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <MyButton shape="circle" className="ml-2">
+                  <DeleteOutlined />
+                </MyButton>
+              </MVConfirm>
+            </>
+          ),
+          // children: [
+          //   {
+          //     key: index + 1,
+          //     name: (
+          //       <MVInput name="options" placeholder="Options" control={control} />
+          //     ),
+          //     age: 0,
+          //     address: <MyButton type="primary">Add</MyButton>,
+          //   },
+          // ],
+        };
+      });
   return (
     <>
-      <MyButton onClick={() => setModal1Open(true)} className="mb-2">
+      <MyButton
+        icon={<PlusOutlined />}
+        onClick={() => setModal1Open(true)}
+        className="mb-2 text-[#fff] bg-[#062868ed]"
+      >
         New product
       </MyButton>
       <Modal
         title="Add New Product"
         centered
         open={modal1Open}
-        onOk={() => setModal1Open(false)}
+        onOk={handleOk}
         onCancel={() => setModal1Open(false)}
       >
-        <MVInput label={"name"} {...register("name")} control={control} />
-        <MVInput label={"name"} {...register("name")} control={control} />
-        <MVInput label={"name"} {...register("name")} control={control} />
+        <form onSubmit={handleSubmit(handleAddProduct)}>
+          <MVInput
+            name={`productName`}
+            placeholder="Product Name"
+            control={control}
+          />
+          {/* {options.map((_item, index) => (
+            <div key={index}>
+              <MVInput
+                name={`option[${index}].optionName`}
+                placeholder="Option Name"
+                control={control}
+              />
+              <MVInput
+                name={`option[${index}].optionValueName`}
+                placeholder="Option Value Name"
+                control={control}
+              />
+            </div>
+          ))} */}
+        </form>
       </Modal>
       <MVTable
         className="w-full"
-        rowSelection={rowSelection}
+        // rowSelection={rowSelection}
         columns={columns}
         dataSource={data}
       />

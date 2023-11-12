@@ -6,7 +6,9 @@ import MVText from "../Text";
 const MVInput = memo(({ name, label, control, rules, ...rest }: any) => {
   return (
     <div className="mb-3">
-      <MVText htmlFor={name}>{label}</MVText>
+      <MVText htmlFor={name} className="capitalize">
+        {name}
+      </MVText>
       <Controller
         name={name}
         control={control}

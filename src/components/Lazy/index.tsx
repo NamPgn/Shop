@@ -1,7 +1,12 @@
 import { Suspense } from "react";
-
-const Lazy = ({ children, loading, ...rest }: any) => (
-  <Suspense fallback={loading} {...rest}>{children}</Suspense>
+interface Suspense {
+  children?: any;
+  loading?: any;
+}
+const Lazy = ({ children, loading, ...rest }: Suspense) => (
+  <Suspense fallback={loading} {...rest}>
+    {children}
+  </Suspense>
 );
 
 export default Lazy;

@@ -7,10 +7,10 @@ const MySliders = () => {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
   };
   return (
-    <Slider {...settings}>
+    <Slider {...settings} className="text-center mt-[50px] mb-[50px]">
       <div>
         <h3>1</h3>
       </div>
@@ -30,7 +30,7 @@ const MySliders = () => {
         <h3>6</h3>
       </div>
     </Slider>
-  )
-}
+  );
+};
 
-export default MySliders
+export default MySliders;
