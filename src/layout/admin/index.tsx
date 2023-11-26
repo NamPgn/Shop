@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   AlignCenterOutlined,
-  AlignLeftOutlined,
   BgColorsOutlined,
   FontSizeOutlined,
   MenuFoldOutlined,
@@ -48,9 +47,9 @@ const LayoutAdmin = () => {
                   icon: <BgColorsOutlined />,
                 },
                 {
-                  key: "5",
-                  label: <MVLink to="/admin/options">Options</MVLink>,
-                  icon: <AlignLeftOutlined />,
+                  key: "a-6",
+                  label: <MVLink to="/admin/productChild">ProductChild</MVLink>,
+                  icon: <AlignCenterOutlined />,
                 },
               ],
             },

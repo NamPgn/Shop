@@ -10,6 +10,7 @@ import { MyButton } from "../../../ui/Button";
 import MVConfirm from "../../../ui/Confirm";
 import MVInput from "../../../ui/Input";
 import MVTable from "../../../ui/Table";
+import { getAllSize } from "../../../../sevices/size";
 interface DataType {
   key: React.Key;
   name: string;
@@ -25,18 +26,6 @@ const columns: ColumnsType<DataType> = [
     dataIndex: "name",
   },
   {
-    title: "Age",
-    dataIndex: "age",
-  },
-  {
-    title: "Image",
-    dataIndex: "image",
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
-  },
-  {
     title: "Tags",
     dataIndex: "tags",
   },
@@ -50,6 +39,7 @@ const Size: React.FC = () => {
   const [modal1Open, setModal1Open] = useState(false);
   const [product, setProduct]: any = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [Isloading, setIsloading]: any = useState(true);
   const { register, control } = useForm();
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
@@ -62,14 +52,15 @@ const Size: React.FC = () => {
   };
   useEffect(() => {
     const getData = async () => {
-      // const data: any = await getAllProduct();
-      // setProduct(data);
+      const data: any = await getAllSize();
+      setProduct(data);
+      setIsloading(false);
     };
     getData();
   }, []);
   const data =
     product.data &&
-    product.data.map((item: any) => {
+    product.data.data.map((item: any) => {
       return {
         key: item.id,
         name: item.name,
@@ -127,7 +118,7 @@ const Size: React.FC = () => {
         <MVInput label={"name"} {...register("name")} control={control} />
         <MVInput label={"name"} {...register("name")} control={control} />
       </Modal>
-      <Spin>
+      <Spin spinning={Isloading}>
         <MVTable
           className="w-full"
           rowSelection={rowSelection}

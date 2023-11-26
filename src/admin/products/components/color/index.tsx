@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Image, Spin, Tag } from "antd";
+import { Spin, Tag } from "antd";
 import { Modal } from "antd";
 import { useForm } from "react-hook-form";
 import MVLink from "../../../../components/Location/Link";
@@ -10,6 +10,7 @@ import { MyButton } from "../../../ui/Button";
 import MVConfirm from "../../../ui/Confirm";
 import MVInput from "../../../ui/Input";
 import MVTable from "../../../ui/Table";
+import { getAllColor } from "../../../../sevices/color";
 interface DataType {
   key: React.Key;
   name: string;
@@ -23,18 +24,6 @@ const columns: ColumnsType<DataType> = [
   {
     title: "Name",
     dataIndex: "name",
-  },
-  {
-    title: "Age",
-    dataIndex: "age",
-  },
-  {
-    title: "Image",
-    dataIndex: "image",
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
   },
   {
     title: "Tags",
@@ -51,6 +40,7 @@ const Color: React.FC = () => {
   const [product, setProduct]: any = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const { register, control } = useForm();
+  const [Isloading, setIsloading]: any = useState(true);
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
@@ -62,29 +52,18 @@ const Color: React.FC = () => {
   };
   useEffect(() => {
     const getData = async () => {
-      // const data: any = await getAllProduct();
-      // setProduct(data);
+      const data: any = await getAllColor();
+      setProduct(data);
+      setIsloading(false);
     };
     getData();
   }, []);
   const data =
     product.data &&
-    product.data.map((item: any) => {
+    product.data.data.map((item: any) => {
       return {
         key: item.id,
         name: item.name,
-        image: (
-          <Image
-            width={100}
-            height={100}
-            style={{
-              objectFit: "cover",
-            }}
-            src="https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/394629872_6802798259797704_3690773629479479926_n.png?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=wF2QndgutjYAX8FS23T&_nc_ht=scontent.fhan14-1.fna&_nc_e2o=f&oh=00_AfCgdG8sUXulYcBPRLgxIPJ5laGiKplMtsx0l695hCGliw&oe=653B0DCF"
-          />
-        ),
-        age: 32,
-        address: item.price,
         tags: <Tag color="success">isActive</Tag>,
         action: (
           <>
@@ -107,6 +86,7 @@ const Color: React.FC = () => {
         ),
       };
     });
+  console.log(Isloading);
   return (
     <>
       <MyButton
@@ -127,7 +107,7 @@ const Color: React.FC = () => {
         <MVInput label={"name"} {...register("name")} control={control} />
         <MVInput label={"name"} {...register("name")} control={control} />
       </Modal>
-      <Spin>
+      <Spin spinning={Isloading}>
         <MVTable
           className="w-full"
           rowSelection={rowSelection}

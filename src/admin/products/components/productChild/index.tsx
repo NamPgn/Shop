@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { Tag } from "antd";
 import { Modal } from "antd";
 import { useForm } from "react-hook-form";
-import MVTable from "../../../../ui/Table";
-import MVInput from "../../../../ui/Input";
-import MVLink from "../../../../../components/Location/Link";
-import { MyButton } from "../../../../ui/Button";
-import MVConfirm from "../../../../ui/Confirm";
-import { getOptionsValue } from "../../../../../sevices/options";
+import MVLink from "../../../../components/Location/Link";
+import { MyButton } from "../../../ui/Button";
+import MVConfirm from "../../../ui/Confirm";
+import MVInput from "../../../ui/Input";
+import MVTable from "../../../ui/Table";
+import { getAllProductChild } from "../../../../sevices/productChild";
 interface DataType {
   key: React.Key;
   name: string;
+  age: number;
+  address: string;
   action: any;
+  tags: any;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -22,14 +26,26 @@ const columns: ColumnsType<DataType> = [
     dataIndex: "name",
   },
   {
+    title: "Color",
+    dataIndex: "color",
+  },
+  {
+    title: "Size",
+    dataIndex: "size",
+  },
+  {
+    title: "Tags",
+    dataIndex: "tags",
+  },
+  {
     title: "Action",
     dataIndex: "action",
   },
 ];
 
-const OptionsValue: React.FC = () => {
+const ProductChild: React.FC = () => {
   const [modal1Open, setModal1Open] = useState(false);
-  const [optionsValue, setOptionsValue]: any = useState([]);
+  const [product, setProduct]: any = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const { register, control } = useForm();
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
@@ -43,17 +59,20 @@ const OptionsValue: React.FC = () => {
   };
   useEffect(() => {
     const getData = async () => {
-      const data: any = await getOptionsValue();
-      setOptionsValue(data);
+      const data: any = await getAllProductChild();
+      setProduct(data);
     };
     getData();
   }, []);
   const data =
-    optionsValue.data &&
-    optionsValue.data.data.map((item: any) => {
+    product.data &&
+    product.data?.data.map((item: any) => {
       return {
         key: item.id,
-        name: item.valueName,
+        name: item.productChildname,
+        tags: <Tag color="success">isActive</Tag>,
+        color: item.color.map((color: any) => color && color.nameColor + " "),
+        size: item.size.map((size: any) => size && size.name + " "),
         action: (
           <>
             <MVLink to={`/admin/product/edit/`}>
@@ -77,6 +96,13 @@ const OptionsValue: React.FC = () => {
     });
   return (
     <>
+      <MyButton
+        icon={<PlusOutlined />}
+        onClick={() => setModal1Open(true)}
+        className="mb-2 text-[#fff] bg-[#062868ed]"
+      >
+        New product
+      </MyButton>
       <Modal
         title="Add New Product"
         centered
@@ -84,6 +110,8 @@ const OptionsValue: React.FC = () => {
         onOk={() => setModal1Open(false)}
         onCancel={() => setModal1Open(false)}
       >
+        <MVInput label={"name"} {...register("name")} control={control} />
+        <MVInput label={"name"} {...register("name")} control={control} />
         <MVInput label={"name"} {...register("name")} control={control} />
       </Modal>
       <MVTable
@@ -96,4 +124,4 @@ const OptionsValue: React.FC = () => {
   );
 };
 
-export default OptionsValue;
+export default ProductChild;
