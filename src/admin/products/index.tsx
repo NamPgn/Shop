@@ -10,8 +10,7 @@ import {
   EditOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
-import { ColorPicker, Divider, Image, Tag } from "antd";
-import type { Color, ColorPickerProps } from "antd/es/color-picker";
+import { Divider, Image, Tag } from "antd";
 import {
   addProduct,
   deleteProduct,
@@ -22,8 +21,8 @@ import MVInput from "../ui/Input";
 import { useForm } from "react-hook-form";
 import { MVError, MVSuccess } from "../../components/Message";
 import { MySelectWrapper } from "../ui/Select";
-import { addColor, getAllColor } from "../../sevices/color";
-import { addSize, getAllSize } from "../../sevices/size";
+import { getAllColor } from "../../sevices/color";
+import { getAllSize } from "../../sevices/size";
 import { addProductChild } from "../../sevices/productChild";
 interface DataType {
   key: React.Key;
@@ -58,15 +57,11 @@ const columns: ColumnsType<DataType> = [
 ];
 const Products: React.FC = () => {
   const [showProductDetail, setShowProductDetail] = useState(false);
-  const [colorHex, setColorHex] = useState<Color | string>("#1677ff");
+
   const [modal1Open, setModal1Open] = useState(false);
   const [init, setInit] = useState(false);
   const [id, setId] = useState("");
-  const [formatHex, setFormatHex] = useState<ColorPickerProps["format"]>("hex");
-  const hexString = useMemo(
-    () => (typeof colorHex === "string" ? colorHex : colorHex.toHexString()),
-    [colorHex]
-  );
+
   const [product, setProduct]: any = useState([]);
   const [color, setColor]: any = useState([]);
   const [size, setSize]: any = useState([]);
@@ -122,17 +117,6 @@ const Products: React.FC = () => {
     handleSubmit(handleAddProduct)();
   };
 
-  const submitColor = async (data: any) => {
-    const dataColor = {
-      name: hexString,
-      nameColor: data.nameColor,
-    };
-    const response = await addColor(dataColor);
-    setInit((init) => !init);
-    if (response) {
-      MVSuccess(`successfully`);
-    }
-  };
   const handleCopy = async (data: any) => {
     navigator.clipboard.writeText(data);
     MVSuccess(`Copy successfully`);
@@ -145,13 +129,7 @@ const Products: React.FC = () => {
       MVSuccess(`successfully`);
     }
   };
-  const submitSize = async (data: any) => {
-    const response = await addSize(data);
-    setInit((init) => !init);
-    if (response) {
-      MVSuccess(`successfully`);
-    }
-  };
+
   const colorOptions =
     color.data &&
     color.data?.data.map((item: { nameColor: any; name: any; _id: any }) => ({
@@ -225,36 +203,6 @@ const Products: React.FC = () => {
           </MyButton>,
           showProductDetail && (
             <>
-              <form onSubmit={handleSubmit(submitColor)} className="mt-5">
-                <div>
-                  <ColorPicker
-                    format={formatHex}
-                    value={colorHex}
-                    onChange={setColorHex}
-                    onFormatChange={setFormatHex}
-                  />
-                  <span> HEX: {hexString}</span>
-                </div>
-                <MVInput
-                  control={control}
-                  name={"nameColor"}
-                  placeholder={"Product name color"}
-                />
-                <MyButton htmlType="submit" icon={<PlusOutlined />}>
-                  Add color
-                </MyButton>
-              </form>
-              <Divider />
-              <form onSubmit={handleSubmit(submitSize)} className=" mt-5">
-                <MVInput
-                  control={control}
-                  name={"name"}
-                  placeholder={"Product size"}
-                />
-                <MyButton htmlType="submit" icon={<PlusOutlined />}>
-                  Add size
-                </MyButton>
-              </form>
               <Divider />
               <form onSubmit={handleSubmit(submitDetail)}>
                 <MVInput
@@ -263,7 +211,6 @@ const Products: React.FC = () => {
                   placeholder={"Product Child Name"}
                 />
                 <MySelectWrapper
-                  mode="multiple"
                   control={control}
                   name="size"
                   label={"Size"}
@@ -272,7 +219,6 @@ const Products: React.FC = () => {
                 />
 
                 <MySelectWrapper
-                  mode="multiple"
                   control={control}
                   name="color"
                   label={"Color"}

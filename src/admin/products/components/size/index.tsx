@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Image, Spin, Tag } from "antd";
-import { Modal } from "antd";
+import { Spin, Tag } from "antd";
 import { useForm } from "react-hook-form";
 import MVLink from "../../../../components/Location/Link";
 import { MyButton } from "../../../ui/Button";
 import MVConfirm from "../../../ui/Confirm";
 import MVInput from "../../../ui/Input";
 import MVTable from "../../../ui/Table";
-import { getAllSize } from "../../../../sevices/size";
+import { addSize, getAllSize } from "../../../../sevices/size";
+import { MVSuccess } from "../../../../components/Message";
 interface DataType {
   key: React.Key;
   name: string;
@@ -36,11 +36,11 @@ const columns: ColumnsType<DataType> = [
 ];
 
 const Size: React.FC = () => {
-  const [modal1Open, setModal1Open] = useState(false);
   const [product, setProduct]: any = useState([]);
+  const [init, setInit] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [Isloading, setIsloading]: any = useState(true);
-  const { register, control } = useForm();
+  const { control, handleSubmit } = useForm();
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
@@ -57,25 +57,20 @@ const Size: React.FC = () => {
       setIsloading(false);
     };
     getData();
-  }, []);
+  }, [init]);
+  const submitSize = async (data: any) => {
+    const response = await addSize(data);
+    setInit((init) => !init);
+    if (response) {
+      MVSuccess(`successfully`);
+    }
+  };
   const data =
     product.data &&
     product.data.data.map((item: any) => {
       return {
         key: item.id,
         name: item.name,
-        image: (
-          <Image
-            width={100}
-            height={100}
-            style={{
-              objectFit: "cover",
-            }}
-            src="https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/394629872_6802798259797704_3690773629479479926_n.png?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=wF2QndgutjYAX8FS23T&_nc_ht=scontent.fhan14-1.fna&_nc_e2o=f&oh=00_AfCgdG8sUXulYcBPRLgxIPJ5laGiKplMtsx0l695hCGliw&oe=653B0DCF"
-          />
-        ),
-        age: 32,
-        address: item.price,
         tags: <Tag color="success">isActive</Tag>,
         action: (
           <>
@@ -100,24 +95,12 @@ const Size: React.FC = () => {
     });
   return (
     <>
-      <MyButton
-        icon={<PlusOutlined />}
-        onClick={() => setModal1Open(true)}
-        className="mb-2 text-[#fff] bg-[#062868ed]"
-      >
-        New product
-      </MyButton>
-      <Modal
-        title="Add New Product"
-        centered
-        open={modal1Open}
-        onOk={() => setModal1Open(false)}
-        onCancel={() => setModal1Open(false)}
-      >
-        <MVInput label={"name"} {...register("name")} control={control} />
-        <MVInput label={"name"} {...register("name")} control={control} />
-        <MVInput label={"name"} {...register("name")} control={control} />
-      </Modal>
+      <form onSubmit={handleSubmit(submitSize)} className=" mt-5">
+        <MVInput control={control} name={"name"} placeholder={"Product size"} />
+        <MyButton htmlType="submit" className="mb-2" icon={<PlusOutlined />} type="primary">
+          Add size
+        </MyButton>
+      </form>
       <Spin spinning={Isloading}>
         <MVTable
           className="w-full"

@@ -67,12 +67,13 @@ const ProductChild: React.FC = () => {
   const data =
     product.data &&
     product.data?.data.map((item: any) => {
+      console.log(item);
       return {
         key: item.id,
         name: item.productChildname,
         tags: <Tag color="success">isActive</Tag>,
-        color: item.color.map((color: any) => color && color.nameColor + " "),
-        size: item.size.map((size: any) => size && size.name + " "),
+        color: item.color && item.color.nameColor,
+        size: item.size && item.size.name,
         action: (
           <>
             <MVLink to={`/admin/product/edit/`}>
